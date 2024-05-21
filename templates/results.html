@@ -1,33 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OCR Results</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='index_styles.css') }}">
+    <title>Results</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <div class="results-container">
-        <h2>Extracted Text</h2>
-        <table class="extracted-text">
-            <thead>
-                <tr>
-                    <th>Contact Name</th>
-                    <th>Last Seen</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for name, last_seen in parsed_texts %}
-                    <tr>
-                        <td>{{ name }}</td>
-                        <td>{{ last_seen }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <form action="/logout" method="get">
-            <button type="submit" class="logout-btn">Logout</button>
-        </form>
-    </div>
+    <h1>Extracted Contact Names</h1>
+    <table>
+        <tr>
+            <th>Contact Name</th>
+            <th>Count</th>
+            <th>Time Seen</th>
+        </tr>
+        {% for contact, count in contact_names.items() %}
+            <tr>
+                <td>{{ contact }}</td>
+                <td>{{ count }}</td>
+                <td>{{ last_seen_times[loop.index0] if last_seen_times else "" }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('index') }}">Back to Home</a>
 </body>
 </html>
